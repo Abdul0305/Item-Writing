@@ -1,0 +1,289 @@
++++
+title = "Deserialize xml to Object"
+date = 2021-02-04
+draft = false
+keywords = ["deserialize xml to object in csharp"]
+description = "Different methods to deserialize xml to CSharp object."
+postlink = 10518372
+inarticle = true
+tags = ["C# classes", "C# Object"]
+author = "Abdullahi Salawudeen"
+
++++
+
+`XML` means Extensible Markup Language similar to HTML only that you have to define custom tags for specific needs. The advantage of using XML is the standardized format which allows XML data to be parsed irrespective of the medium of transmitting the XML file. Further discussion is available via [this reference](https://developer.mozilla.org/en-US/docs/Web/XML/XML_introduction).
+
+There are numerous `XML`-based languages, including `XBL`, `MathML` `SVG,` and `XUL`.
+
+## Structure of an `XML`  file
+
+The whole structure of XML is based on tags. Just like `HTML`, every opening tag must have a corresponding closing tag.
+
+Below is an example code.
+
+``` xml
+1. <?xml version="1.0" encoding="utf-8"?> 
+2. <Company xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"> 
+3.  <Employee name="x" age="30" /> 
+4.  <Employee name="y" age="32" /> 
+5. </Company> 
+```
+
+
+
+## `C#` Objects
+
+`C#` or `CSharp` is an object-oriented programming language that implies that everything in `C#` is associated with `classes` and `objects` along with `attributes` and `methods`. `Objects` are like real-life nouns like a person, car, or building. `Objects` are represented with classes programmatically, such as `John` or `James`. 
+
+`Attributes`, on the other hand, are characteristics of objects such as the `color of a car`, `year of production`, `age of a person,` or `color of a building`. Use the `class` keyword to create a class in CSharp. Further discussion is available via [this reference](https://docs.microsoft.com/en-us/dotnet/csharp/fundamentals/object-oriented/objects).
+
+Below is an example code.
+
++++
+
+```csharp
+using System;
+
+public class Person
+{
+    public string Name { get; set; }
+    public int Age { get; set; }
+    public string Address {get; set;} 
+    public Person(string name, int age, string address)
+    {
+        Name = name;
+        Age = age;
+        Address = address;
+    }
+    
+}
+```
+
+
+
+## Serializing `XML` to C# Object
+
+`XML` data can be parsed into several programming languages including `JavaScript`, `Java`, and `CSharp`. This tutorial will demonstrate the conversion or de-serializing of `XML` to the `C#` object.
+
+Line 1 of the code are meta-data containing the `XML` version and encoding type.
+
+line 2 and 5 are the opening and closing tags
+
+Below is an `XML` code sample
+
+``` xml
+1. <?xml version="1.0" encoding="utf-8"?>  
+2. <Company xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">  
+3.  <Employee name="x" age="30" />  
+4.  <Employee name="y" age="32" />  
+5. </Company>  
+```
+
+## Use manually typed classes to convert `XML` to `CSharp` object
+
+To convert the above `XML` code sample, a class with a similar structure would be created in `C#`.
+
+Below is the `C#` code demonstration of creating an equivalent class
+
+``` c#
+using System.Xml.Serialization;
+
+[XmlRoot(ElementName = "Company")]  
+public class Company  
+{  
+    public Company()  
+    {  
+        Employees = new List<Employee>();  
+    }  
+  
+    [XmlElement(ElementName = "Employee")]  
+    public List<Employee> Employees { get; set; }  
+  
+    public Employee this[string name]  
+    {  
+        get { return Employees.FirstOrDefault(s => string.Equals(s.Name, name, StringComparison.OrdinalIgnoreCase)); }  
+    }  
+}  
+  
+public class Employee  
+{  
+    [XmlAttribute("name")]  
+    public string Name { get; set; }  
+  
+    [XmlAttribute("age")]  
+    public string Age { get; set; }  
+}  
+```
+
+The final step to convert the `XML` object to `C#` is to use `System.Xml.Serialization.XmlSerializer` function to serialize the object.
+
+Below is the `C#` code to implement the serialization
+
+``` c#
+public T DeserializeToObject<T>(string filepath) where T : class  
+{  
+    System.Xml.Serialization.XmlSerializer ser = new System.Xml.Serialization.XmlSerializer(typeof(T));  
+  
+    using (StreamReader sr = new StreamReader(filepath))  
+    {  
+        return (T)ser.Deserialize(sr);  
+    }  
+}  
+```
+
+## use the `Paste Special` feature of `Visual Studio` to deserialize `XML` to `C#` object
+
+This method requires using the Microsoft Visual Studio 2012 and above with .Net Framework 4.5 and above. The WCF workload for Visual Studio must also be installed.
+
+1. The content of the `XML` document must be copied to clipboard
+2. Add a new **empty class** to the project solution
+3. Open the new class file
+4. click on the **Edit** button on the menu bar of the IDE
+5. Select **Paste Special** from the dropdown
+6. Click on **Paste XML As Classes**
+
+![Paste XML As Classes](https://i.stack.imgur.com/jSmc3.png)
+
+To use the class generated by Visual Studio, create **Helpers** class.
+
+Below is the `C#` code for the **Helpers** class
+
+``` c#
+using System;
+using System.IO;
+using System.Web.Script.Serialization; // Add reference: System.Web.Extensions
+using System.Xml;
+using System.Xml.Serialization;
+
+namespace Helpers
+{
+    internal static class ParseHelpers
+    {
+        private static JavaScriptSerializer json;
+        private static JavaScriptSerializer JSON { get { return json ?? (json = new JavaScriptSerializer()); } }
+
+        public static Stream ToStream(this string @this)
+        {
+            var stream = new MemoryStream();
+            var writer = new StreamWriter(stream);
+            writer.Write(@this);
+            writer.Flush();
+            stream.Position = 0;
+            return stream;
+        }
+
+
+        public static T ParseXML<T>(this string @this) where T : class
+        {
+            var reader = XmlReader.Create(@this.Trim().ToStream(), new XmlReaderSettings() { ConformanceLevel = ConformanceLevel.Document });
+            return new XmlSerializer(typeof(T)).Deserialize(reader) as T;
+        }
+
+        public static T ParseJSON<T>(this string @this) where T : class
+        {
+            return JSON.Deserialize<T>(@this.Trim());
+        }
+    }
+}
+```
+
+
+
+## use the `XSD tool` to deserialize `XML` to `C#` object
+
+`XSD` simply means `XML` Schema Definition tool. As the name implies, it is used to automatically generate an `XML` schema. In other words, `XSD` is used to automatically generate `classes` or `objects` equivalent to the schema defined in an `XML` file or document.
+
+`XSD.exe` is normally found in the path: `C:\Program Files (x86)\Microsoft SDKs\Windows\{version}\bin\NETFX {version} Tools\`. Further discussion is available via [this reference](https://docs.microsoft.com/en-us/dotnet/standard/serialization/xml-schema-def-tool-gen#:~:text=The%20XML%20Schema%20Definition%20tool%20(Xsd.exe)%20allows%20you,defined%20by%20an%20XML%20schema.).
+
+Suppose the XML file is saved in this path: `C:\X\test.XML`.
+
+Below are the steps to follow to deserialize the `XML` to `C#` classes automatically:
+
+1. Type `Developer Command Prompt` into the search bar and click on it to open.
+2. Type `cd C:\X` to navigate to the `XML` file path. 
+3. Remove line numbers and any unnecessary characters in the `XML` file.
+4. Type `xsd test.XML` to create an `XSD file` equivalent from the test.XML.
+5. A `test.XSD` file is created in the same file path.
+6. Type `XSD /c test.XSD` to create the `C# classes` equivalent to the `XML` file.
+7. A `test.cs` file is created which is a `C#` class with an exact schema of the `XML` file.
+
+Below is the `C#` class code generated automatically.
+
+``` c#
+//------------------------------------------------------------------------------
+// <auto-generated>
+//     This code was generated by a tool.
+//     Runtime Version:4.0.30319.42000
+//
+//     Changes to this file may cause incorrect behavior and will be lost if
+//     the code is regenerated.
+// </auto-generated>
+//------------------------------------------------------------------------------
+
+using System.Xml.Serialization;
+
+// 
+// This source code was auto-generated by xsd, Version=4.8.3928.0.
+// 
+
+
+/// <remarks/>
+[System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "4.8.3928.0")]
+[System.SerializableAttribute()]
+[System.Diagnostics.DebuggerStepThroughAttribute()]
+[System.ComponentModel.DesignerCategoryAttribute("code")]
+[System.Xml.Serialization.XmlTypeAttribute(AnonymousType=true)]
+[System.Xml.Serialization.XmlRootAttribute(Namespace="", IsNullable=false)]
+public partial class Company {
+    
+    private CompanyEmployee[] itemsField;
+    
+    /// <remarks/>
+    [System.Xml.Serialization.XmlElementAttribute("Employee", Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+    public CompanyEmployee[] Items {
+        get {
+            return this.itemsField;
+        }
+        set {
+            this.itemsField = value;
+        }
+    }
+}
+
+/// <remarks/>
+[System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "4.8.3928.0")]
+[System.SerializableAttribute()]
+[System.Diagnostics.DebuggerStepThroughAttribute()]
+[System.ComponentModel.DesignerCategoryAttribute("code")]
+[System.Xml.Serialization.XmlTypeAttribute(AnonymousType=true)]
+public partial class CompanyEmployee {
+    
+    private string nameField;
+    
+    private string ageField;
+    
+    /// <remarks/>
+    [System.Xml.Serialization.XmlAttributeAttribute()]
+    public string name {
+        get {
+            return this.nameField;
+        }
+        set {
+            this.nameField = value;
+        }
+    }
+    
+    /// <remarks/>
+    [System.Xml.Serialization.XmlAttributeAttribute()]
+    public string age {
+        get {
+            return this.ageField;
+        }
+        set {
+            this.ageField = value;
+        }
+    }
+}
+
+```
+

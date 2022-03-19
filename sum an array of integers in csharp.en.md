@@ -11,19 +11,9 @@ author = "Abdullahi Salawudeen"
 
 +++
 
-`C#` or `CSharp` is a strongly typed object-oriented programming language. This implies that every variable must be declared while indicating the type of values that variable is going to store. 
+A variable can be used to store multiple values of the same `data type`. An `array` is an unordered sequence of elements used in `CSharp` and other high-level programming languages to store multiple values in a single variable. It makes it easy to manipulate data with less code. It could also be used to represent data structures like `lists`, `trees`, `stacks`, and `queues`. Since `CSharp` is strongly typed, runtime errors would be avoided and performance is faster with Arrays. Further discussion is available via [this reference](https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/arrays/).
 
-## `C#` Arrays
-
-Generally, variables in programming languages are containers or memory allocations, or memory holders used to hold or store data in memory. Similarly, in `CSharp`, variables are used to store data values which can be called, manipulated, or reallocated in memory as the program executes. `CSharp` variables are stored in different forms or types called `Data types`. 
-
-However, a variable can be used to store multiple values of the same `data type`. An `array` is an unordered sequence of elements used in `CSharp` and other high-level programming languages to store multiple values in a single variable. It makes it easy to manipulate data with less code. It could also be used to represent data structures like `lists`, `trees`, `stacks`, and `queues`. Since `CSharp` is strongly typed, runtime errors would be avoided and performance is faster with Arrays. Further discussion is available via [this reference](https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/arrays/).
-
-Although there are so many advantages of using Arrays in `CSharp`, there are also limitations such as the size of an array which is fixed the moment it is created. Data manipulation in `arrays` is also limited when it comes to inserting or deleting an element in the middle of an `array`. These limitations birthed `Collections` in `CSharp`. Further discussion is available via [this reference](https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/arrays/).
-
-`Arrays` are derived from the base class `System. Array` and can be single-dimensional, multidimensional, or jagged. The number of dimensions is established when the array instance is created.
-
-To declare an `array` in `CSharp` is similar to how variables are declared except with the square brackets []. `Arrays` are declared by specifying the data type of its elements with **square brackets** then the `arrayName`.
+`Arrays` are derived from the base class `System. Array` and can be single-dimensional, multidimensional, or jagged. The number of dimensions is established when the array instance is created. To declare an `array` in `CSharp` is similar to how variables are declared except with the square brackets []. `Arrays` are declared by specifying the data type of its elements with **square brackets** then the `arrayName`.
 
 Below is the syntax of declaring arrays in `CSharp`.
 

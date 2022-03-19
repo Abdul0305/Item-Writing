@@ -11,41 +11,22 @@ author = "Abdullahi Salawudeen"
 
 +++
 
-Generally, high-level programming languages are either loosely typed or strongly typed. Loosely typed languages or dynamic languages do not require variables to be explicitly defined or specified. There is a lot of flexibility in coding in these languages. Examples of loosely typed programming languages include `Lisp`, `Perl`, `Python`, `JavaScript,` and `Ruby`. 
+Generally, high-level programming languages are either loosely typed or strongly typed. A strongly typed language mostly compiled languages on the contrary requires every variable to be properly and explicitly specified.  `C#` or `CSharp` is a strongly typed object-oriented programming language. This implies that every variable must be declared while indicating the type of values that variable is going to store.  
 
-A strongly typed language mostly compiled languages on the contrary requires every variable to be properly and explicitly specified. This makes the program have structure and helps keep the code secured and manageable. Examples of strongly typed programming languages include `Java`, `C`, `Swift`, `TypeScript`, and `CSharp`.
+Variables are containers or memory allocations used to hold or store data in memory. Variables in `CSharp` can be called, manipulated, or reallocated in memory as the program executes. `CSharp` variables are stored in different forms or types called `Data types`. Further discussion is available via [this reference](https://www.w3schools.com/cs/cs_variables.php).
 
-`C#` or `CSharp` is a strongly typed object-oriented programming language. This implies that every variable must be declared while indicating the type of values that variable is going to store. 
-
-## `C#` Variables
-
-Generally, variables in programming languages are containers or memory allocations, or memory holders used to hold or store data in memory. Similarly, in `CSharp`, variables are used to store data values which can be called, manipulated, or reallocated in memory as the program executes. `CSharp` variables are stored in different forms or types called `Data types`. Further discussion is available via [this reference](https://www.w3schools.com/cs/cs_variables.php).
-
-Below is the syntax of declaring variables in `CSharp`.
-
-```c#
-type variableName = value;
-```
-
-where type could be any of `CSharp` data types including `char`, `string`, `int`, and `bool`.
-
-## `C#` Data Types
-
-The size and type of variables in `C#` must be specified. `Data types` are traditionally used in `C#` to specify the type of data value to be stored and the size of memory to be allocated to the data value of a variable. It is advisable to explicitly declare the data type of a variable at the point of creation. This is cost-effective, error-free, and increases code maintainability.
-
-The common `CSharp` data types are `int`, `long`, `float`, and `double` for storing numbers while `char` and `string` stores alphabets and other characters. Last is the `bool` data type used to store Boolean values.
-
-The `char` data type stores a single character. The character must be enclosed in single quotes, like `'A'` or `'x'`.
+The size and type of variables in `C#` must be specified using `Data types`. It is advisable to explicitly declare the data type of a variable at the point of creation. This is cost-effective, error-free, and increases code maintainability. Common `CSharp` data types are `int`, `long`, `float`, and `double` for storing numbers while `char` and `string` stores alphabets and other characters. Last is the `bool` data type used to store Boolean values. The `char` data type stores a single character. The character must be enclosed in single quotes, like `'A'` or `'x'`.
 
 Below is the code sample of how to declare a variable with `Char` data type.
 
 ```c#
+type variableName = value;
 char grade = 'A';
 char myCharacter = 'X';
 char myLuckyNumber = '3';
 ```
 
-As stated earlier, variables can be manipulated in `CSharp` such that variables can be converted or transformed from one data type to another. the third example of the `char` data types is may be converted to an `int` data type stored as the number 3.
+As stated earlier, variables can be manipulated in `CSharp` such that variables can be converted or transformed from one data type to another. the third example of the `char` data types may be converted to an `int` data type stored as the number 3.
 
 ## Use `Char.GetNumericValue()` method to convert `char` data type to `int` data type in `CSharp`
 
@@ -131,7 +112,7 @@ public class GetNumericValue {
 }
 ```
 
-If the `char` value is not numeric in single quotes, an exception is thrown. Below is an illustration:
+An exception is thrown if the char value is not numeric in single quotes. Below is an illustration:
 
 ```c#
 using System;

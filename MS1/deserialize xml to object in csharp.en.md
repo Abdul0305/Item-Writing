@@ -1,9 +1,9 @@
 +++
-title = "Deserialize xml to Object"
+title = "Deserialize xml to Object in C#"
 date = 2021-02-04
 draft = false
-keywords = ["deserialize xml to object in csharp"]
-description = "Different methods to deserialize xml to CSharp object."
+keywords = ["deserialize xml to object in C#"]
+description = "In this tutorial, learn the different methods of deserializing an xml to C# object with examples. Use the paste special feature of Visual Studio, xsd tool, and type the equivalent class in C#."
 postlink = 10518372
 inarticle = true
 tags = ["C# classes", "C# Object"]
@@ -11,65 +11,15 @@ author = "Abdullahi Salawudeen"
 
 +++
 
-`XML` means Extensible Markup Language similar to HTML only that you have to define custom tags for specific needs. The advantage of using XML is the standardized format which allows XML data to be parsed irrespective of the medium of transmitting the XML file. Further discussion is available via [this reference](https://developer.mozilla.org/en-US/docs/Web/XML/XML_introduction).
+This article will demonstrate the conversion or de-serializing of `XML` files into the `C#` object.
 
-There are numerous `XML`-based languages, including `XBL`, `MathML` `SVG,` and `XUL`.
+## Use manually typed classes to deserialize XML file to `C#` object
 
-## Structure of an `XML`  file
+`C#` or `CSharp` is an object-oriented programming language that implies that everything in `C#` is associated with `classes` and `objects` along with `attributes` and `methods`. `Objects` are like real-life nouns like a person, car, or building. `Objects` are represented with classes programmatically, such as `John` or `James`. `Attributes`, on the other hand, are characteristics of objects such as the `color of a car`, `year of production`, `age of a person,` or `color of a building`. Use the `class` keyword to create a class in `C#`. Further discussion is available via [this reference](https://docs.microsoft.com/en-us/dotnet/csharp/fundamentals/object-oriented/objects).
 
-The whole structure of XML is based on tags. Just like `HTML`, every opening tag must have a corresponding closing tag.
+`XML` means Extensible Mark-up Language similar to HTML only that you have to define custom tags for specific needs. The advantage of using XML is the standardized format which allows XML data to be parsed irrespective of the medium of transmitting the XML file. Further discussion is available via [this reference](https://developer.mozilla.org/en-US/docs/Web/XML/XML_introduction). 
 
-Below is an example code.
-
-``` xml
-1. <?xml version="1.0" encoding="utf-8"?> 
-2. <Company xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"> 
-3.  <Employee name="x" age="30" /> 
-4.  <Employee name="y" age="32" /> 
-5. </Company> 
-```
-
-
-
-## `C#` Objects
-
-`C#` or `CSharp` is an object-oriented programming language that implies that everything in `C#` is associated with `classes` and `objects` along with `attributes` and `methods`. `Objects` are like real-life nouns like a person, car, or building. `Objects` are represented with classes programmatically, such as `John` or `James`. 
-
-`Attributes`, on the other hand, are characteristics of objects such as the `color of a car`, `year of production`, `age of a person,` or `color of a building`. Use the `class` keyword to create a class in CSharp. Further discussion is available via [this reference](https://docs.microsoft.com/en-us/dotnet/csharp/fundamentals/object-oriented/objects).
-
-Below is an example code.
-
-+++
-
-```csharp
-using System;
-
-public class Person
-{
-    public string Name { get; set; }
-    public int Age { get; set; }
-    public string Address {get; set;} 
-    public Person(string name, int age, string address)
-    {
-        Name = name;
-        Age = age;
-        Address = address;
-    }
-    
-}
-```
-
-
-
-## Serializing `XML` to C# Object
-
-`XML` data can be parsed into several programming languages including `JavaScript`, `Java`, and `CSharp`. This tutorial will demonstrate the conversion or de-serializing of `XML` to the `C#` object.
-
-Line 1 of the code are meta-data containing the `XML` version and encoding type.
-
-line 2 and 5 are the opening and closing tags
-
-Below is an `XML` code sample
+Below is an `XML` code sample that would be converted to `C#` object.
 
 ``` xml
 1. <?xml version="1.0" encoding="utf-8"?>  
@@ -79,7 +29,7 @@ Below is an `XML` code sample
 5. </Company>  
 ```
 
-## Use manually typed classes to convert `XML` to `CSharp` object
+
 
 To convert the above `XML` code sample, a class with a similar structure would be created in `C#`.
 
@@ -90,6 +40,8 @@ using System.Xml.Serialization;
 
 [XmlRoot(ElementName = "Company")]  
 public class Company  
+    
+    
 {  
     public Company()  
     {  
@@ -101,7 +53,7 @@ public class Company
   
     public Employee this[string name]  
     {  
-        get { return Employees.FirstOrDefault(s => string.Equals(s.Name, name, StringComparison.OrdinalIgnoreCase)); }  
+        get { return Employees.FirstOrDefault(s => string.Equals(s.Name, name, 							StringComparison.OrdinalIgnoreCase)); }  
     }  
 }  
   
@@ -131,20 +83,39 @@ public T DeserializeToObject<T>(string filepath) where T : class
 }  
 ```
 
+
+
 ## use the `Paste Special` feature of `Visual Studio` to deserialize `XML` to `C#` object
 
 This method requires using the Microsoft Visual Studio 2012 and above with .Net Framework 4.5 and above. The WCF workload for Visual Studio must also be installed.
 
-1. The content of the `XML` document must be copied to clipboard
-2. Add a new **empty class** to the project solution
-3. Open the new class file
-4. click on the **Edit** button on the menu bar of the IDE
-5. Select **Paste Special** from the dropdown
-6. Click on **Paste XML As Classes**
+- #### The content of the `XML` document must be copied to the clipboard
+
+  
+
+- ##### Add a new **empty class** to the project solution
+
+  
+
+- ##### Open the new class file
+
+  
+
+- ##### Click on the **Edit** button on the menu bar of the IDE
+
+  
+
+- ##### Select **Paste Special** from the dropdown
+
+  
+
+- ##### Click on Paste XML As Classes
+
+  
 
 ![Paste XML As Classes](https://i.stack.imgur.com/jSmc3.png)
 
-To use the class generated by Visual Studio, create **Helpers** class.
+To use the class generated by Visual Studio, create the **Helpers** class.
 
 Below is the `C#` code for the **Helpers** class
 
@@ -158,9 +129,11 @@ using System.Xml.Serialization;
 namespace Helpers
 {
     internal static class ParseHelpers
+        
+        
     {
         private static JavaScriptSerializer json;
-        private static JavaScriptSerializer JSON { get { return json ?? (json = new JavaScriptSerializer()); } }
+        private static JavaScriptSerializer JSON { get { return json ?? (json = new 				JavaScriptSerializer()); } }
 
         public static Stream ToStream(this string @this)
         {
@@ -199,15 +172,33 @@ Suppose the XML file is saved in this path: `C:\X\test.XML`.
 
 Below are the steps to follow to deserialize the `XML` to `C#` classes automatically:
 
-1. Type `Developer Command Prompt` into the search bar and click on it to open.
-2. Type `cd C:\X` to navigate to the `XML` file path. 
-3. Remove line numbers and any unnecessary characters in the `XML` file.
-4. Type `xsd test.XML` to create an `XSD file` equivalent from the test.XML.
-5. A `test.XSD` file is created in the same file path.
-6. Type `XSD /c test.XSD` to create the `C# classes` equivalent to the `XML` file.
-7. A `test.cs` file is created which is a `C#` class with an exact schema of the `XML` file.
+- ##### Type `Developer Command Prompt` into the search bar and click on it to open
 
-Below is the `C#` class code generated automatically.
+  
+
+- ##### Type `cd C:\X` to navigate to the `XML` file path
+
+  
+
+- ##### Remove line numbers and any unnecessary characters in the `XML` file
+
+  
+
+- ##### Type `xsd test.XML` to create an `XSD file` equivalent from the test.XML
+
+  
+
+- ##### A `test.XSD` file is created in the same file path
+
+  
+
+- ##### Type `XSD /c test.XSD` to create the `C# classes` equivalent to the `XML` file
+
+  
+
+- ##### A `test.cs` file is created which is a `C#` class with an exact schema of the `XML` file.
+
+Output:
 
 ``` c#
 //------------------------------------------------------------------------------
@@ -284,6 +275,4 @@ public partial class CompanyEmployee {
         }
     }
 }
-
 ```
-
